@@ -1,11 +1,36 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { Image, StyleSheet, View, Text, Alert, Button, TextInput, TouchableOpacity } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
+import { Picker } from '@react-native-picker/picker'; // Import the Picker component
+
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-export default function HomeScreen() {
+export default function HomeScreen(): JSX.Element {
+
+  const [amount, setAmount] = useState('');
+  const [item, setItem] = useState('');
+  const [date, setDate] = useState('');
+  const [wallet, setWallet] = useState(''); // State for wallet selection
+
+
+  const handleSaveExpense = () => {
+    // 입력 값 확인 및 저장 로직
+    if (wallet && amount && item && date) {
+      Alert.alert('저장 성공', `항목: ${item}\n금액: ${amount}\n날짜: ${date}`);
+      Alert.alert('Save Successful', `Wallet: ${wallet}\nItem: ${item}\nAmount: ${amount}\nDate: ${date}\n`);
+      setWallet('');
+      setAmount('');
+      setItem('');
+      setDate('');
+      
+    } else {
+      Alert.alert('Error', 'Please fill out all fields.');
+    }
+  };
+
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -16,36 +41,71 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
+        <ThemedText type="title">Expenses for This Month : </ThemedText>
+        
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
+
+
+   {/* Expense Input Section */}
+   <ThemedView style={styles.expenseContainer}>
+        <ThemedText type="subtitle">Input Your Expense</ThemedText>
+   
+{/* Wallet Selection Dropdown */}
+<Picker
+          selectedValue={wallet}
+          style={styles.picker}
+          onValueChange={(itemValue) => setWallet(itemValue)}>
+          <Picker.Item label="Select My Wallet" value="" />
+          <Picker.Item label="Cash" value="Cash" />
+          <Picker.Item label="Debit" value="Debit" />
+          <Picker.Item label="Credit Card" value="Credit Card" />
+        </Picker>
+
+        {/* Amount Input Section */}
+
+        <View style={styles.inputRow}>
+          {/* (+), (-), Transfer Buttons */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>+</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>-</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Transfer</Text>
+            </TouchableOpacity>
+          </View>
+          
+       {/* Amount Input */}
+       <TextInput
+            style={styles.input}
+            placeholder="Amount"
+            keyboardType="numeric"
+            value={amount}
+            onChangeText={setAmount}
+          />
+        </View>
+
+                {/* Category and Date Inputs */}
+
+        <TextInput
+          style={styles.input}
+          placeholder="Category"
+          value={item}
+          onChangeText={setItem}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Data (YYYY-MM-DD)"
+          value={date}
+          onChangeText={setDate}
+        />
+        <Button title="Save" onPress={handleSaveExpense} />
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
+
+
+     
     </ParallaxScrollView>
   );
 }
@@ -67,4 +127,46 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
   },
+  expenseContainer: {
+    marginVertical: 16,
+    padding: 16,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    padding: 8,
+    marginVertical: 4,
+    borderRadius: 4,
+  },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  buttonContainer: {
+    flexDirection: 'column',
+    marginRight: 10,
+  },
+  button: {
+    padding: 6,
+    borderRadius: 4,
+    backgroundColor: '#E0E0E0',
+    marginBottom: 6,
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  picker: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 4,
+    marginVertical: 8,
+    padding: 8,
+  },
+
+
 });
