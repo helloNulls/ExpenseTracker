@@ -54,4 +54,7 @@ Join our community of developers creating universal apps.
 For Chart view, install those packages by running these commands on terminal:
 - npx expo install react-native-chart-kit react-native-svg @types/react-native-svg-charts
 
+Package needed for calendar view:
+- npm install react-native-calendars
+
 >>>>>>> 14d270f001e1bbc4bc238c9e7fa8f86a0597c089
