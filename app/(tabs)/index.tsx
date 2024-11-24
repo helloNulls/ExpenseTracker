@@ -44,7 +44,7 @@ const markedDates: Record<string, MarkedDate> = {
 export default function ExpenseTrackerScreen() {
   const [activeTab, setActiveTab] = useState('reports');
 
-  const totalCAD = Object.values(markedDates).reduce((sum, { amount }) => sum + amount, 0);
+  const totalCAD = Object.values(markedDates).reduce((sum, { amount }) => sum + amount, 0).toFixed(2);
 
   return (
     <View style={styles.container}>
