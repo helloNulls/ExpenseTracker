@@ -18,4 +18,5 @@ web-build/
 
 expo-env.d.ts
 # @end expo-cli
-loginPage/login/.env
+# loginPage/login/.env
+.env
