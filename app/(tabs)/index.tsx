@@ -1,36 +1,26 @@
 import React, { useState } from 'react';
-import { 
-  Image, 
-  View, 
-  TouchableOpacity, 
-  Text, 
-  TextInput, 
-  ScrollView, 
-  KeyboardAvoidingView, 
-  Platform, 
-  Alert 
+import {
+  Image,
+  View,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
 } from 'react-native';
-import { NavigationProp } from '@react-navigation/native';
+import { useRouter } from 'expo-router'; // Use Expo Router's `useRouter`
 import styles from '../../styles/loginScreenStyles';
 import Feather from '@expo/vector-icons/Feather';
 import { LinearGradient } from 'expo-linear-gradient';
 
-type RootStackParamList = {
-  ForgotPassword: undefined;
-  signup: undefined;
-};
-
-type LoginScreenNavigationProp = NavigationProp<RootStackParamList, 'signup'>;
-
-interface LoginProps {
-  navigation: LoginScreenNavigationProp;
-}
-
-const Login: React.FC<LoginProps> = ({ navigation }) => {
+const Login: React.FC = () => {
   const googleImg = require('../../assets/images/google.png');
   const facebookImg = require('../../assets/images/facebook.png');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const router = useRouter(); // Get the router instance
 
   const handleLogin = async () => {
     try {
@@ -41,17 +31,14 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
       });
 
       const data = await response.json();
-      console.log('Response data:', data);
 
       if (response.ok) {
-        console.log('Login Success');
         Alert.alert('Login Success', data.message);
       } else {
-        Alert.alert('Login Failed', data.message);
-        console.log('Login Failed');
+        Alert.alert('Login Failed', data.message || 'Invalid credentials.');
       }
     } catch (error) {
-      Alert.alert('Cannot connect to Server');
+      Alert.alert('Error', 'Unable to connect to the server.');
     }
   };
 
@@ -62,9 +49,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
       end={{ x: 1, y: 0 }}
       style={styles.container}
     >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView contentContainerStyle={styles.inner}>
           <View style={styles.imgCon}></View>
           <Text style={styles.title}>Welcome Back!</Text>
@@ -75,6 +60,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
               placeholder="Enter your email"
               value={email}
               onChangeText={setEmail}
+              autoCapitalize="none"
             />
             <Text style={styles.conText}>Password</Text>
             <TextInput
@@ -85,12 +71,12 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
               secureTextEntry
             />
             <View style={styles.loginCon}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('ForgotPassword')}
+              {/* <TouchableOpacity
+                onPress={() => router.push('/forgot-password')} // Change to the correct route if necessary
                 style={styles.forgetPWContainer}
-              >
+              > */}
                 <Text style={styles.forgetPW}>Forgot Password?</Text>
-              </TouchableOpacity>
+              {/* </TouchableOpacity> */}
             </View>
 
             <TouchableOpacity style={styles.pressButton} onPress={handleLogin}>
@@ -117,7 +103,8 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
 
           <View style={styles.registerBox}>
             <Text>Don't have an account?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('signup')}>
+            <TouchableOpacity onPress={() => router.push('/signup')}>
+              {/* Use `router.push('/signup')` for navigation */}
               <Text style={styles.register}>Register</Text>
             </TouchableOpacity>
           </View>
