@@ -17,10 +17,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 type RootStackParamList = {
   ForgotPassword: undefined;
-  signin: undefined;
+  signup: undefined;
 };
 
-type LoginScreenNavigationProp = NavigationProp<RootStackParamList, 'signin'>;
+type LoginScreenNavigationProp = NavigationProp<RootStackParamList, 'signup'>;
 
 interface LoginProps {
   navigation: LoginScreenNavigationProp;
@@ -117,7 +117,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
 
           <View style={styles.registerBox}>
             <Text>Don't have an account?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('signin')}>
+            <TouchableOpacity onPress={() => navigation.navigate('signup')}>
               <Text style={styles.register}>Register</Text>
             </TouchableOpacity>
           </View>
