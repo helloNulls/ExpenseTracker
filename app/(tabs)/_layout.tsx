@@ -32,6 +32,26 @@ export default function TabLayout() {
           ),
         }}
       />
+  <Tabs.Screen
+  name="profile"
+  options={{
+    title: 'Profile',
+    tabBarIcon: ({ color, focused }) => (
+      <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />
+    ),
+  }}
+/>
+<Tabs.Screen
+  name="overview"
+  options={{
+    title: 'Overview',
+    tabBarIcon: ({ color, focused }) => (
+      <TabBarIcon name={focused ? 'analytics' : 'analytics-outline'} color={color} />
+    ),
+  }}
+/>
+
+
     </Tabs>
   );
 }
