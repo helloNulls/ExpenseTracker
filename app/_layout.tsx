@@ -27,14 +27,15 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme} children={undefined}>
+    // <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme} children={undefined}>
       <Stack>
 
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
         <Stack.Screen name="signup" options={{ title: 'Sign Up' }} />
-        
+        <Stack.Screen name="password" options={{ title: 'Password' }} />
+
       </Stack>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 }

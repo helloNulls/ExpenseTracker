@@ -16,6 +16,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const Login: React.FC = () => {
+  const logoImg = require('../../assets/images/logo.jpg') // 로고 이미지 파일
   const googleImg = require('../../assets/images/google.png');
   const facebookImg = require('../../assets/images/facebook.png');
   const [email, setEmail] = useState<string>('');
@@ -51,8 +52,11 @@ const Login: React.FC = () => {
     >
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView contentContainerStyle={styles.inner}>
-          <View style={styles.imgCon}></View>
-          <Text style={styles.title}>Welcome Back!</Text>
+          <View style={styles.imgCon} />
+           {/* 로고 이미지 삽입 */}
+        
+          <Image source={logoImg} style={styles.logoImg} />
+          <Text style={styles.title}>LOONIE SAVER</Text>
           <View style={styles.innerContainer}>
             <Text style={styles.conText}>Email</Text>
             <TextInput
@@ -85,7 +89,7 @@ const Login: React.FC = () => {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.otherLoginContainer}>
+          {/* <View style={styles.otherLoginContainer}>
             <View style={styles.line} />
             <Text style={styles.signinwith}>Or Sign-In With</Text>
             <View style={styles.line} />
@@ -99,7 +103,7 @@ const Login: React.FC = () => {
           <TouchableOpacity style={styles.otherAccount}>
             <Text style={styles.loginText}>Facebook Account</Text>
             <Image source={facebookImg} style={styles.logoImg} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <View style={styles.registerBox}>
             <Text>Don't have an account?</Text>

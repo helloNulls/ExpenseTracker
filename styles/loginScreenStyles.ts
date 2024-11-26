@@ -4,7 +4,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
+  logo: {
+    width: 400,
+    height: 400,
+    padding: 12
+  },
   inner: {
     backgroundColor: 'transparent',
     justifyContent: 'center',
