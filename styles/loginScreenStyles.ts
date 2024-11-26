@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { red } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -55,6 +56,7 @@ const styles = StyleSheet.create({
   },
 
   forgetPW: {
+    padding: 5,
     fontSize: 13,
     color: 'red',
     textAlign: 'right',
@@ -64,11 +66,12 @@ const styles = StyleSheet.create({
   loginCon: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 0,
+    padding: 5,
   },
 
   forgetPWContainer: {
     flex: 0.9,
+   
   },
 
   pressButton: {

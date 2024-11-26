@@ -74,14 +74,13 @@ const Login: React.FC = () => {
               onChangeText={setPassword}
               secureTextEntry
             />
-            <View style={styles.loginCon}>
-              {/* <TouchableOpacity
-                onPress={() => router.push('/forgot-password')} // Change to the correct route if necessary
-                style={styles.forgetPWContainer}
-              > */}
-                <Text style={styles.forgetPW}>Forgot Password?</Text>
-              {/* </TouchableOpacity> */}
-            </View>
+          
+           
+            <TouchableOpacity onPress={() => router.push('/password')}>
+              {/* Use `router.push('/signup')` for navigation */}
+              <Text style={styles.forgetPW}>Forgot Password?</Text>
+            </TouchableOpacity>
+         
 
             <TouchableOpacity style={styles.pressButton} onPress={handleLogin}>
               <Text style={styles.login}>Login</Text>
