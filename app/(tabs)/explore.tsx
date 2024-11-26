@@ -1,102 +1,172 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { Image, StyleSheet, View, Text, Alert, Button, TextInput, TouchableOpacity } from 'react-native';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
+import { Picker } from '@react-native-picker/picker'; // Import the Picker component
+
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-export default function TabTwoScreen() {
+export default function HomeScreen(): JSX.Element {
+
+  const [amount, setAmount] = useState('');
+  const [item, setItem] = useState('');
+  const [date, setDate] = useState('');
+  const [wallet, setWallet] = useState(''); // State for wallet selection
+
+
+  const handleSaveExpense = () => {
+    // 입력 값 확인 및 저장 로직
+    if (wallet && amount && item && date) {
+      Alert.alert('저장 성공', `항목: ${item}\n금액: ${amount}\n날짜: ${date}`);
+      Alert.alert('Save Successful', `Wallet: ${wallet}\nItem: ${item}\nAmount: ${amount}\nDate: ${date}\n`);
+      setWallet('');
+      setAmount('');
+      setItem('');
+      setDate('');
+      
+    } else {
+      Alert.alert('Error', 'Please fill out all fields.');
+    }
+  };
+
+
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}>
+      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerImage={
+        <Image
+          source={require('@/assets/images/partial-react-logo.png')}
+          style={styles.reactLogo}
+        />
+      }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
+        <ThemedText type="title">Expenses for This Month : </ThemedText>
+        
       </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText> library
-          to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
+
+
+   {/* Expense Input Section */}
+   <ThemedView style={styles.expenseContainer}>
+        <ThemedText type="subtitle">Input Your Expense</ThemedText>
+   
+{/* Wallet Selection Dropdown */}
+<Picker
+          selectedValue={wallet}
+          style={styles.picker}
+          onValueChange={(itemValue) => setWallet(itemValue)}>
+          <Picker.Item label="Select My Wallet" value="" />
+          <Picker.Item label="Cash" value="Cash" />
+          <Picker.Item label="Debit" value="Debit" />
+          <Picker.Item label="Credit Card" value="Credit Card" />
+        </Picker>
+
+        {/* Amount Input Section */}
+
+        <View style={styles.inputRow}>
+          {/* (+), (-), Transfer Buttons */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>+</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>-</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Transfer</Text>
+            </TouchableOpacity>
+          </View>
+          
+       {/* Amount Input */}
+       <TextInput
+            style={styles.input}
+            placeholder="Amount"
+            keyboardType="numeric"
+            value={amount}
+            onChangeText={setAmount}
+          />
+        </View>
+
+                {/* Category and Date Inputs */}
+
+        <TextInput
+          style={styles.input}
+          placeholder="Category"
+          value={item}
+          onChangeText={setItem}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Data (YYYY-MM-DD)"
+          value={date}
+          onChangeText={setDate}
+        />
+        <Button title="Save" onPress={handleSaveExpense} />
+      </ThemedView>
+
+
+     
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
   titleContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 8,
   },
+  stepContainer: {
+    gap: 8,
+    marginBottom: 8,
+  },
+  reactLogo: {
+    height: 178,
+    width: 290,
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+  },
+  expenseContainer: {
+    marginVertical: 16,
+    padding: 16,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    padding: 8,
+    marginVertical: 4,
+    borderRadius: 4,
+  },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  buttonContainer: {
+    flexDirection: 'column',
+    marginRight: 10,
+  },
+  button: {
+    padding: 6,
+    borderRadius: 4,
+    backgroundColor: '#E0E0E0',
+    marginBottom: 6,
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  picker: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 4,
+    marginVertical: 8,
+    padding: 8,
+  },
+
+
 });
