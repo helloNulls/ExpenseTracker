@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Dimensions,Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Dimensions, ScrollView} from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import { Calendar } from 'react-native-calendars'; // Import a calendar component
 
@@ -134,7 +134,33 @@ export default function ExpenseTrackerScreen() {
           />
         </View>
         </View>
-      ) : (
+      ): activeTab === 'daily' ? (
+        <ScrollView>
+          <View style={styles.dailyContainer}>
+          <View style={styles.expenseSection}>
+            <Text style={styles.expenseText}>Monthly Expense</Text>
+            <View style={styles.expenseDetails}>
+              <Text style={styles.currencyText}>{`${totalCAD} CAD`}</Text>
+              <Text style={styles.currencyText}>~~~ KRW</Text>
+            </View>
+          </View>
+            <Text style={styles.dailyHeader}>Daily Transactions</Text>
+            {Object.entries(markedDates).map(([date, details]) => (
+              <View key={date} style={styles.dailyItem}>
+                <Text style={styles.dailyDate}>{date}</Text>
+                <Text
+                  style={[
+                    styles.dailyAmount,
+                    { color: details.amount > 0 ? 'red' : 'blue' },
+                  ]}
+                >
+                  {details.amount > 0 ? `+${details.amount.toFixed(2)}` : `${details.amount.toFixed(2)}`} CAD
+                </Text>
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+      )  : (
         // Default Content for other tabs
         <>
           <View style={styles.chartContainer}>
@@ -237,5 +263,27 @@ const styles = StyleSheet.create({
   currencyText: {
     fontSize: 16,
     color: '#555',
+  },
+  dailyContainer: {
+    padding: 16,
+  },
+  dailyHeader: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  dailyItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  dailyDate: {
+    fontSize: 16,
+    color: '#000',
+  },
+  dailyAmount: {
+    fontSize: 16,
   },
 });
